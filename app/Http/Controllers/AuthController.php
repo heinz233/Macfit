@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,13 +19,16 @@ class AuthController extends Controller
             'user_image'=>'nullable|image|max:255|mines:jpeg,png,jpg',
             ]);
 
-        try {
+            $role = Role::where('name', 'User')->first();
 
             $user = new User();
             $user->name = $validated['name'];
             $user->email = $validated['email'];
+            $user->role_id = $role->id;
             $user->password = Hash::make($validated['password']); // ✅ Save password
 
+            
+        try {
             $user->save();
 
             return response()->json([
