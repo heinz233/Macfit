@@ -27,7 +27,15 @@ class AuthController extends Controller
             $user->role_id = $role->id;
             $user->password = Hash::make($validated['password']); // ✅ Save password
 
-            
+            if($request->hasFile('user_image')){
+                $filename = $request->file('user_image')->store('users', 'public');
+                $user->user_image = $filename; 
+            } else {
+                $filename = null;
+            }
+
+            $user->user_image = $filename; 
+
         try {
             $user->save();
 
