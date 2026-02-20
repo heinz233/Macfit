@@ -15,6 +15,7 @@ Route::post('\login', [AuthController::class, 'login']);
     //Protected Routes
 Route::middleware('auth:sanctum')->group(function (){
 
+Route::post('\log out',[AuthController::class, 'log out']);
 
 Route::post('/saveRole', [RoleController::class, 'createRole']);
 Route::get('/getRoles', [RoleController::class, 'readAllRoles']);
