@@ -26,7 +26,7 @@ class User extends Authenticatable
         'user_image',
         'role_id',
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -42,11 +42,24 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
+    protected $casts = [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active'=>'boolean'
+            ];
+        
+
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+    public function abilities(){
+        return [
+            'admin' => $this->role === 1,
+            'trainer' => $this->role === 2,
+            'user' => $this->role === 3,
+            'staff' => $this->role === 4,
+            
         ];
     }
 }
